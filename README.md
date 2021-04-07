@@ -47,7 +47,7 @@ pyARSS.Decode(
     min_frequency = 25, # 25 Hz; the minimum frequency until the data is discarded
     max_frequency = 20000, # 20,000 Hz; the maximum frequency until the data is discarded ***
     sample_rate = 44100, # The sample rate for the output audio file
-    sine = True, # The synthesis method; sine is better for music whereas noise (sine=False) is better for speech etc.
+    sine = True, # The synthesis method; sine is much faster whereas noise (sine=False) is more detailed, however, takes much longer to compute.
     pps = 100, # Time resolution; pixels per second (PPS)
     bpo = 48   # Frequency resolution; bands per octave (BPO)
 )
