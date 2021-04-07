@@ -76,11 +76,11 @@ def Encode(input_path : str, output_path : str,
         pth.abspath("temp.wav") if temp \    # Input file
             else input_path,                      
         output_path,                         # Output file
-        "--analysis",                          # Type
-        "--min-freq", str(min_frequency),     # Minimum frequency
-        "--max-freq", str(max_frequency),     # Maximum frequency
-        "--pps", str(pps),                     # Time resolution (pixels per second)
-        "--bpo", str(bpo)                     # Frequency resolution (bands per octave)
+        "--analysis",                        # Type
+        "--min-freq", str(min_frequency),    # Minimum frequency
+        "--max-freq", str(max_frequency),    # Maximum frequency
+        "--pps", str(pps),                   # Time resolution (pixels per second)
+        "--bpo", str(bpo)                    # Frequency resolution (bands per octave)
     ], stderr=PIPE, universal_newlines=True)
 
     # Remove temporary WAV file.
@@ -145,13 +145,13 @@ def Decode(input_path : str, output_path : str,
         cmd, "-q",
         input_path,                          # Input file
         pth.abspath("temp.wav") if temp \
-            else output_path,                  # Output file
+            else output_path,                # Output file
         "--sine" if sine else "--noise",     # Type
         "--sample-rate", str(sample_rate),   # Sample rate
-        "--min-freq", str(min_frequency),     # Minimum frequency
-        # "--max-freq", str(max_frequency),     # Maximum frequency -- TODO: ARSS: "You have set one parameter too many"
-        "--pps", str(pps),                     # Time resolution (pixels per second)
-        "--bpo", str(bpo)                     # Frequency resolution (bands per octave)
+        "--min-freq", str(min_frequency),    # Minimum frequency
+        # "--max-freq", str(max_frequency),  # Maximum frequency -- TODO: ARSS: "You have set one parameter too many"
+        "--pps", str(pps),                   # Time resolution (pixels per second)
+        "--bpo", str(bpo)                    # Frequency resolution (bands per octave)
     ], stderr=PIPE, universal_newlines=True)
 
     # Raise error if ARSS failed.
