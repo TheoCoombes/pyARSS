@@ -29,7 +29,7 @@ pyARSS also supports custom audio file types, such as MP3:
 pyARSS.Encode("inp.mp3", "out.bmp")
 ```
 
-You can also customise the settings used (reference):
+## Reference
 
 ```py
 pyARSS.Encode(
