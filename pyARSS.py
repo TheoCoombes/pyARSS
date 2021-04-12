@@ -17,7 +17,7 @@ moddir = pth.dirname(modpth)
 if sys == "Windows":
     cmd = moddir + "\\bin_windows\\arss"
 elif sys == "Linux":
-    cmd = moddir + "\\bin_linux\\arss"
+    cmd = moddir + "/bin_linux/arss"
 else:
     cmd = "arss" # MacOS requires ARSS to be directly installed via the installer.
 
@@ -73,8 +73,8 @@ def Encode(input_path : str, output_path : str,
     # Run the main ARSS executable.
     result = run([
         cmd, "-q",
-        pth.abspath("temp.wav") if temp \    # Input file
-            else input_path,                      
+        pth.abspath("temp.wav") if temp \    
+            else input_path,                 # Input file     
         output_path,                         # Output file
         "--analysis",                        # Type
         "--min-freq", str(min_frequency),    # Minimum frequency
