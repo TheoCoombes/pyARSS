@@ -73,7 +73,7 @@ def Encode(input_path : str, output_path : str,
     # Run the main ARSS executable.
     result = run([
         cmd, "-q",
-        pth.abspath("temp.wav") if temp \    
+        pth.abspath("temp.wav") if temp \
             else input_path,                 # Input file     
         output_path,                         # Output file
         "--analysis",                        # Type
