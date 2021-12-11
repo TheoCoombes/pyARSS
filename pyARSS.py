@@ -2,6 +2,7 @@ from subprocess import run, PIPE
 from pydub import AudioSegment
 from platform import system
 from os import path as pth
+from uuid import uuid4
 from os import remove
 
 sys = system()
@@ -33,7 +34,7 @@ def Encode(input_path : str, output_path : str,
     input_path = pth.abspath(input_path)
     output_path = pth.abspath(output_path)
 
-    temp = False
+    uuid = None
     if not input_path.endswith(".wav"):
         # Assume we need to convert the file.
         if not input_path.endswith(".mp3"):
@@ -53,8 +54,8 @@ def Encode(input_path : str, output_path : str,
         
         # Generate temporary WAV file from MP3.
         new = AudioSegment.from_mp3(input_path)
-        new.export("temp.wav", format="wav")
-        temp = True
+        uuid = "_pyARSS_temp_" + uuid4().hex + ".wav"
+        new.export(uuid, format="wav")
     
     # Validate output_path input.
     if not output_path.endswith(".bmp"):
@@ -73,7 +74,7 @@ def Encode(input_path : str, output_path : str,
     # Run the main ARSS executable.
     result = run([
         cmd, "-q",
-        pth.abspath("temp.wav") if temp \
+        pth.abspath(uuid) if uuid is not None \
             else input_path,                 # Input file     
         output_path,                         # Output file
         "--analysis",                        # Type
@@ -84,8 +85,8 @@ def Encode(input_path : str, output_path : str,
     ], stderr=PIPE, universal_newlines=True)
 
     # Remove temporary WAV file.
-    if temp:
-        remove("temp.wav")
+    if uuid is not None:
+        remove(uuid)
         
     # Check and raise ARSS errors.
     if result.returncode != 0:
@@ -136,15 +137,15 @@ def Decode(input_path : str, output_path : str,
     # Should pyARSS create a temporary WAV file?
     # ARSS only supports waveform files.
     if not output_path.endswith(".wav"):
-        temp = True
+        uuid = "_pyARSS_temp_" + uuid4().hex + ".wav"
     else:
-        temp = False
+        uuid = None
     
     # Run the main ARSS executable.
     result = run([
         cmd, "-q",
         input_path,                          # Input file
-        pth.abspath("temp.wav") if temp \
+        pth.abspath(uuid) if uuid is not None \
             else output_path,                # Output file
         "--sine" if sine else "--noise",     # Type
         "--sample-rate", str(sample_rate),   # Sample rate
@@ -158,16 +159,16 @@ def Decode(input_path : str, output_path : str,
     if result.returncode != 0:
         try:
             # Attempt to remove the temporary WAV file if it was generated.
-            remove("temp.wav")
+            remove(uuid)
         except:
             pass
         raise RuntimeError(result.stderr)
     
     # Convert the file if required.
-    if temp:
+    if uuid is not None:
         # Load WAV and convert MP3.
-        new = AudioSegment.from_wav("temp.wav")
+        new = AudioSegment.from_wav(uuid)
         new.export(output_path, format="mp3")
         
         # Remove temporary WAV file.
-        remove("temp.wav")
+        remove(uuid)
