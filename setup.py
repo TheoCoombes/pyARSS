@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="pyARSS",
-    version="0.1.0",
+    version="0.2.0",
     description="A Python wrapper for the Analysis & Resynthesis Sound Spectrograph (ARSS)",
     url="https://github.com/TheoCoombes/pyARSS",
     author="Theo Coombes",
