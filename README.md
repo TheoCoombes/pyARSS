@@ -1,4 +1,10 @@
 # pyARSS
+
+Install this package with
+```sh
+pip install pyARSS
+```
+
 A Python wrapper for the Analysis &amp; Resynthesis Sound Spectrograph (ARSS)
 * You can learn more about ARSS [here](http://arss.sourceforge.net/).
 
